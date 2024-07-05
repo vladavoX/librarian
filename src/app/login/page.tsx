@@ -1,63 +1,113 @@
 'use client'
-import { FormEvent, useState } from 'react'
-import { signIn } from 'next-auth/react'
+import { type FormEvent, useRef, useState } from 'react'
+import { signIn, useSession } from 'next-auth/react'
 import { useRouter } from 'next/navigation'
 import Link from 'next/link'
+import { useToast } from '@/components/ui/use-toast'
+import { Label } from '@/components/ui/label'
+import { Input } from '@/components/ui/input'
+import { Button } from '@/components/ui/button'
+import { z } from 'zod'
+import { LoadingSpinner } from '../components/LoadingSpinner'
+import { PasswordInput } from '../components/PasswordInput'
+
+const loginSchema = z.object({
+	email: z.string().email(),
+	password: z.string().min(8)
+})
 
 export default function Login() {
-	const [error, setError] = useState('')
+	const session = useSession()
 	const router = useRouter()
+
+	if (session.status === 'authenticated') router.push('/')
+
+	const ref = useRef<HTMLFormElement>(null)
+	const { toast } = useToast()
 
 	const handleSubmit = async (event: FormEvent<HTMLFormElement>) => {
 		event.preventDefault()
 		const formData = new FormData(event.currentTarget)
+
+		// validate the form data
+		const parsedFormData = loginSchema.safeParse({
+			email: formData.get('email') as string,
+			password: formData.get('password') as string
+		})
+		if (!parsedFormData.success) {
+			toast({
+				description: parsedFormData.error.errors[0].message,
+				title: 'There was an error logging in',
+				variant: 'destructive',
+				duration: 3000
+			})
+			return
+		}
+
 		const res = await signIn('credentials', {
 			email: formData.get('email'),
 			password: formData.get('password'),
 			redirect: false
 		})
 		if (res?.error) {
-			setError(res.error as string)
+			toast({
+				description: res.error,
+				title: 'There was an error logging in',
+				variant: 'destructive',
+				duration: 3000
+			})
 		}
 		if (res?.ok) {
+			toast({
+				description: 'Logged in successfully',
+				title: 'Success'
+			})
 			return router.push('/')
 		}
 	}
 
 	return (
-		<section className='w-full h-screen flex items-center justify-center text-black'>
-			<form
-				className='p-6 w-full max-w-[400px] flex flex-col justify-between items-center gap-2 
-        border border-solid border-black bg-white rounded'
-				onSubmit={handleSubmit}
-			>
-				{error && <div className='text-black'>{error}</div>}
-				<h1 className='mb-5 w-full text-2xl font-bold'>Sign In</h1>
-				<label className='w-full text-sm'>Email</label>
-				<input
-					type='email'
-					placeholder='Email'
-					className='w-full h-8 border border-solid border-black rounded p-2'
-					name='email'
-				/>
-				<label className='w-full text-sm'>Password</label>
-				<div className='flex w-full'>
-					<input
-						type='password'
-						placeholder='Password'
-						className='w-full h-8 border border-solid border-black rounded p-2'
-						name='password'
-					/>
-				</div>
-				<button className='w-full border border-solid border-black rounded'>Sign In</button>
+		<>
+			<section className='w-full h-screen flex items-center justify-center'>
+				{session.status === 'loading' && <LoadingSpinner />}
+				{session.status === 'authenticated' && <p>Already logged in...</p>}
+				{session.status === 'unauthenticated' && (
+					<form
+						ref={ref}
+						onSubmit={handleSubmit}
+						className='mx-auto min-w-96 flex flex-col gap-6'
+					>
+						<h3 className='text-center text-lg font-medium'>Sign in</h3>
+						<div className='flex flex-col gap-2'>
+							<Label
+								htmlFor='email'
+								className='flex justify-between'
+							>
+								Email*
+							</Label>
+							<Input
+								name='email'
+								type='email'
+								required
+								placeholder='john.smith@email.com'
+							/>
+						</div>
+						<div className='flex flex-col gap-2'>
+							<Label htmlFor='password'>Password*</Label>
+							<PasswordInput />
+						</div>
 
-				<Link
-					href='/register'
-					className='text-sm text-[#888] transition duration-150 ease hover:text-black'
-				>
-					Don't have an account?
-				</Link>
-			</form>
-		</section>
+						<Button>Sign in</Button>
+
+						<Link
+							href='/register'
+							className='text-center font-medium text-sm'
+						>
+							Don't have an account?
+						</Link>
+					</form>
+				)}
+			</section>
+		</>
 	)
 }

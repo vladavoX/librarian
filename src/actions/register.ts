@@ -3,25 +3,22 @@ import { connectDB } from '@/lib/mongodb'
 import User from '@/models/User'
 import bcrypt from 'bcryptjs'
 
-export const register = async (values: any) => {
-	const { email, password, name } = values
-
+export const register = async (email: string, password: string) => {
 	try {
 		await connectDB()
+
 		const userFound = await User.findOne({ email })
 		if (userFound) {
-			return {
-				error: 'Email already exists!'
-			}
+			return { error: 'Email already exists!' }
 		}
+
 		const hashedPassword = await bcrypt.hash(password, 10)
-		const user = new User({
-			name,
-			email,
+
+		await User.create({
+			email: email,
 			password: hashedPassword
 		})
-		const savedUser = await user.save()
-	} catch (e) {
-		console.log(e)
+	} catch (error) {
+		console.log(error)
 	}
 }
