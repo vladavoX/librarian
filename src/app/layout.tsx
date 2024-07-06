@@ -4,7 +4,8 @@ import './globals.css'
 import { Provider } from './provider'
 import { Toaster } from '@/components/ui/toaster'
 import { ThemeProvider } from 'next-themes'
-import { ModeToggle } from './components/ModeToggle'
+import { TooltipProvider } from '@/components/ui/tooltip'
+import { SideNav } from './components/navigation/SideNav'
 
 const inter = Inter({ subsets: ['latin'] })
 
@@ -19,18 +20,20 @@ export default function RootLayout({
 	children: React.ReactNode
 }>) {
 	return (
-		<html lang="en">
+		<html lang='en'>
 			<Provider>
 				<body className={inter.className}>
 					<ThemeProvider
-						attribute="class"
-						defaultTheme="system"
+						attribute='class'
+						defaultTheme='system'
 						enableSystem
 						disableTransitionOnChange
 					>
-						<ModeToggle />
-						{children}
-						<Toaster />
+						<TooltipProvider>
+							<SideNav />
+							{children}
+							<Toaster />
+						</TooltipProvider>
 					</ThemeProvider>
 				</body>
 			</Provider>

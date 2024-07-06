@@ -8,15 +8,9 @@ import { Label } from '@/components/ui/label'
 import { Input } from '@/components/ui/input'
 import { Button } from '@/components/ui/button'
 import { z } from 'zod'
-import { LoadingSpinner } from '../components/LoadingSpinner'
-import { PasswordInput } from '../components/PasswordInput'
-import {
-	Card,
-	CardHeader,
-	CardTitle,
-	CardDescription,
-	CardContent
-} from '@/components/ui/card'
+import { LoadingSpinner } from '../components/loading/LoadingSpinner'
+import { PasswordInput } from '../components/input/PasswordInput'
+import { Card, CardHeader, CardTitle, CardDescription, CardContent } from '@/components/ui/card'
 
 const loginSchema = z.object({
 	email: z.string().email(),
@@ -75,50 +69,57 @@ export default function Login() {
 
 	return (
 		<>
-			<section className="w-full h-screen flex items-center justify-center">
+			<section className='w-full h-screen flex items-center justify-center'>
 				{session.status === 'loading' && <LoadingSpinner />}
 				{session.status === 'authenticated' && <p>Redirecting...</p>}
 				{session.status === 'unauthenticated' && (
-					<form ref={ref} onSubmit={handleSubmit}>
-						<Card className="mx-auto max-w-sm">
+					<form
+						ref={ref}
+						onSubmit={handleSubmit}
+					>
+						<Card className='mx-auto max-w-sm'>
 							<CardHeader>
-								<CardTitle className="text-2xl">Login</CardTitle>
-								<CardDescription>
-									Enter your email below to login to your account
-								</CardDescription>
+								<CardTitle className='text-2xl'>Login</CardTitle>
+								<CardDescription>Enter your email below to login to your account</CardDescription>
 							</CardHeader>
 							<CardContent>
-								<div className="grid gap-4">
-									<div className="grid gap-2">
-										<Label htmlFor="email">Email</Label>
+								<div className='grid gap-4'>
+									<div className='grid gap-2'>
+										<Label htmlFor='email'>Email</Label>
 										<Input
-											id="email"
-											name="email"
-											type="email"
-											placeholder="m@example.com"
+											id='email'
+											name='email'
+											type='email'
+											placeholder='m@example.com'
 											required
-											autoComplete="email"
+											autoComplete='email'
 										/>
 									</div>
-									<div className="grid gap-2">
-										<div className="flex items-center">
-											<Label htmlFor="password">Password</Label>
+									<div className='grid gap-2'>
+										<div className='flex items-center'>
+											<Label htmlFor='password'>Password</Label>
 											<Link
-												href="#"
-												className="ml-auto inline-block text-sm underline"
+												href='#'
+												className='ml-auto inline-block text-sm underline'
 											>
 												Forgot your password?
 											</Link>
 										</div>
 										<PasswordInput />
 									</div>
-									<Button type="submit" className="w-full">
+									<Button
+										type='submit'
+										className='w-full'
+									>
 										Login
 									</Button>
 								</div>
-								<div className="mt-4 text-center text-sm">
+								<div className='mt-4 text-center text-sm'>
 									Don&apos;t have an account?{' '}
-									<Link href="/register" className="underline">
+									<Link
+										href='/register'
+										className='underline'
+									>
 										Sign up
 									</Link>
 								</div>

@@ -1,13 +1,7 @@
 'use client'
 import { register } from '@/actions/register'
 import { Button } from '@/components/ui/button'
-import {
-	Card,
-	CardContent,
-	CardDescription,
-	CardHeader,
-	CardTitle
-} from '@/components/ui/card'
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card'
 import { Input } from '@/components/ui/input'
 import { Label } from '@/components/ui/label'
 import { useToast } from '@/components/ui/use-toast'
@@ -16,8 +10,8 @@ import Link from 'next/link'
 import { useRouter } from 'next/navigation'
 import { useRef } from 'react'
 import { z } from 'zod'
-import { LoadingSpinner } from '../components/LoadingSpinner'
-import { PasswordInput } from '../components/PasswordInput'
+import { LoadingSpinner } from '../components/loading/LoadingSpinner'
+import { PasswordInput } from '../components/input/PasswordInput'
 
 const registerSchema = z.object({
 	email: z.string().email(),
@@ -88,74 +82,81 @@ export default function Register() {
 
 	return (
 		<>
-			<section className="w-full h-screen flex items-center justify-center">
+			<section className='w-full h-screen flex items-center justify-center'>
 				{session.status === 'loading' && <LoadingSpinner />}
 				{session.status === 'authenticated' && <p>Redirecting...</p>}
 				{session.status === 'unauthenticated' && (
-					<form ref={ref} action={handleSubmit}>
-						<Card className="mx-auto max-w-sm">
+					<form
+						ref={ref}
+						action={handleSubmit}
+					>
+						<Card className='mx-auto max-w-sm'>
 							<CardHeader>
-								<CardTitle className="text-xl">Sign Up</CardTitle>
-								<CardDescription>
-									Enter your information to create an account
-								</CardDescription>
+								<CardTitle className='text-xl'>Sign Up</CardTitle>
+								<CardDescription>Enter your information to create an account</CardDescription>
 							</CardHeader>
 							<CardContent>
-								<div className="grid gap-4">
-									<div className="grid grid-cols-2 gap-4">
-										<div className="grid gap-2">
-											<Label htmlFor="first-name">First name</Label>
+								<div className='grid gap-4'>
+									<div className='grid grid-cols-2 gap-4'>
+										<div className='grid gap-2'>
+											<Label htmlFor='first-name'>First name</Label>
 											<Input
-												name="first-name"
-												id="first-name"
-												placeholder="Max"
+												name='first-name'
+												id='first-name'
+												placeholder='Max'
 											/>
 										</div>
-										<div className="grid gap-2">
-											<Label htmlFor="last-name">Last name</Label>
+										<div className='grid gap-2'>
+											<Label htmlFor='last-name'>Last name</Label>
 											<Input
-												name="last-name"
-												id="last-name"
-												placeholder="Robinson"
+												name='last-name'
+												id='last-name'
+												placeholder='Robinson'
 											/>
 										</div>
 									</div>
-									<div className="grid gap-2">
-										<Label htmlFor="email">Username</Label>
+									<div className='grid gap-2'>
+										<Label htmlFor='email'>Username</Label>
 										<Input
-											autoComplete="username"
-											name="username"
-											id="username"
-											type="text"
-											placeholder="example"
+											autoComplete='username'
+											name='username'
+											id='username'
+											type='text'
+											placeholder='example'
 										/>
 									</div>
-									<div className="grid gap-2">
-										<Label htmlFor="email">Email*</Label>
+									<div className='grid gap-2'>
+										<Label htmlFor='email'>Email*</Label>
 										<Input
-											autoComplete="email"
-											name="email"
-											id="email"
-											type="email"
-											placeholder="m@example.com"
+											autoComplete='email'
+											name='email'
+											id='email'
+											type='email'
+											placeholder='m@example.com'
 											required
 										/>
 									</div>
-									<div className="grid gap-2">
-										<Label htmlFor="password">Password*</Label>
+									<div className='grid gap-2'>
+										<Label htmlFor='password'>Password*</Label>
 										<PasswordInput />
 									</div>
-									<div className="grid gap-2">
-										<Label htmlFor="password_confirm">Confirm password*</Label>
-										<PasswordInput name="password_confirm" />
+									<div className='grid gap-2'>
+										<Label htmlFor='password_confirm'>Confirm password*</Label>
+										<PasswordInput name='password_confirm' />
 									</div>
-									<Button type="submit" className="w-full">
+									<Button
+										type='submit'
+										className='w-full'
+									>
 										Create an account
 									</Button>
 								</div>
-								<div className="mt-4 text-center text-sm">
+								<div className='mt-4 text-center text-sm'>
 									Already have an account?{' '}
-									<Link href="/login" className="underline">
+									<Link
+										href='/login'
+										className='underline'
+									>
 										Sign in
 									</Link>
 								</div>
