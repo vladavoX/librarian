@@ -1,14 +1,21 @@
 'use client'
 import { register } from '@/actions/register'
 import { Button } from '@/components/ui/button'
+import {
+	Card,
+	CardContent,
+	CardDescription,
+	CardHeader,
+	CardTitle
+} from '@/components/ui/card'
 import { Input } from '@/components/ui/input'
 import { Label } from '@/components/ui/label'
 import { useToast } from '@/components/ui/use-toast'
+import { useSession } from 'next-auth/react'
 import Link from 'next/link'
 import { useRouter } from 'next/navigation'
 import { useRef } from 'react'
 import { z } from 'zod'
-import { useSession } from 'next-auth/react'
 import { LoadingSpinner } from '../components/LoadingSpinner'
 import { PasswordInput } from '../components/PasswordInput'
 
@@ -28,6 +35,9 @@ export default function Register() {
 	const { toast } = useToast()
 
 	const handleSubmit = async (formData: FormData) => {
+		const firstName = formData.get('first-name') as string
+		const lastName = formData.get('last-name') as string
+		const username = formData.get('username') as string
 		const email = formData.get('email') as string
 		const password = formData.get('password') as string
 		const password_confirm = formData.get('password_confirm') as string
@@ -58,7 +68,7 @@ export default function Register() {
 			return
 		}
 
-		const r = await register(email, password)
+		const r = await register(email, password, firstName, lastName, username)
 		if (r?.error) {
 			toast({
 				description: r.error,
@@ -78,45 +88,79 @@ export default function Register() {
 
 	return (
 		<>
-			<section className='w-full h-screen flex items-center justify-center'>
+			<section className="w-full h-screen flex items-center justify-center">
 				{session.status === 'loading' && <LoadingSpinner />}
-				{session.status === 'authenticated' && <p>Already logged in...</p>}
+				{session.status === 'authenticated' && <p>Redirecting...</p>}
 				{session.status === 'unauthenticated' && (
-					<form
-						ref={ref}
-						action={handleSubmit}
-						className='mx-auto min-w-96 flex flex-col gap-6'
-					>
-						<h3 className='text-center text-lg font-medium'>Register</h3>
-						<div className='flex flex-col gap-2'>
-							<Label
-								htmlFor='email'
-								className='flex justify-between'
-							>
-								Email*
-							</Label>
-							<Input
-								name='email'
-								type='email'
-								required
-								placeholder='john.smith@email.com'
-							/>
-						</div>
-						<div className='flex flex-col gap-2'>
-							<Label htmlFor='password'>Password*</Label>
-							<PasswordInput />
-						</div>
-						<div className='flex flex-col gap-2'>
-							<Label htmlFor='password'>Confirm password*</Label>
-							<PasswordInput name='password_confirm' />
-						</div>
-						<Button>Sign up</Button>
-						<Link
-							href='/login'
-							className='text-center font-medium text-sm'
-						>
-							Already have an account?
-						</Link>
+					<form ref={ref} action={handleSubmit}>
+						<Card className="mx-auto max-w-sm">
+							<CardHeader>
+								<CardTitle className="text-xl">Sign Up</CardTitle>
+								<CardDescription>
+									Enter your information to create an account
+								</CardDescription>
+							</CardHeader>
+							<CardContent>
+								<div className="grid gap-4">
+									<div className="grid grid-cols-2 gap-4">
+										<div className="grid gap-2">
+											<Label htmlFor="first-name">First name</Label>
+											<Input
+												name="first-name"
+												id="first-name"
+												placeholder="Max"
+											/>
+										</div>
+										<div className="grid gap-2">
+											<Label htmlFor="last-name">Last name</Label>
+											<Input
+												name="last-name"
+												id="last-name"
+												placeholder="Robinson"
+											/>
+										</div>
+									</div>
+									<div className="grid gap-2">
+										<Label htmlFor="email">Username</Label>
+										<Input
+											autoComplete="username"
+											name="username"
+											id="username"
+											type="text"
+											placeholder="example"
+										/>
+									</div>
+									<div className="grid gap-2">
+										<Label htmlFor="email">Email*</Label>
+										<Input
+											autoComplete="email"
+											name="email"
+											id="email"
+											type="email"
+											placeholder="m@example.com"
+											required
+										/>
+									</div>
+									<div className="grid gap-2">
+										<Label htmlFor="password">Password*</Label>
+										<PasswordInput />
+									</div>
+									<div className="grid gap-2">
+										<Label htmlFor="password_confirm">Confirm password*</Label>
+										<PasswordInput name="password_confirm" />
+									</div>
+									<Button type="submit" className="w-full">
+										Create an account
+									</Button>
+								</div>
+								<div className="mt-4 text-center text-sm">
+									Already have an account?{' '}
+									<Link href="/login" className="underline">
+										Sign in
+									</Link>
+								</div>
+							</CardContent>
+						</Card>
 					</form>
 				)}
 			</section>

@@ -6,6 +6,17 @@ export interface UserDocument {
 	password: string
 	createdAt: Date
 	updatedAt: Date
+	username?: string
+	userTag?: string
+	avatar?: string
+	firstName?: string
+	lastName?: string
+	settings: UserSettings
+}
+
+export interface UserSettings {
+	theme: string
+	profileSetup: boolean
 }
 
 const UserSchema = new Schema<UserDocument>(
@@ -14,17 +25,26 @@ const UserSchema = new Schema<UserDocument>(
 			type: String,
 			unique: true,
 			required: [true, 'Email is required'],
-			match: [/^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/, 'Email is invalid']
+			match: [
+				/^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/,
+				'Email is invalid'
+			]
 		},
 		password: {
 			type: String,
 			required: true,
 			minlength: [8, 'Password must be at least 8 characters long']
+		},
+		username: { type: String, unique: true },
+		avatar: { type: String },
+		firstName: { type: String },
+		lastName: { type: String },
+		settings: {
+			theme: { type: String, default: 'light' },
+			profileSetup: { type: Boolean, default: false }
 		}
 	},
-	{
-		timestamps: true
-	}
+	{ timestamps: true }
 )
 
 const User = mongoose.models?.User || model<UserDocument>('User', UserSchema)

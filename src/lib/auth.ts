@@ -14,14 +14,20 @@ export const authOptions: NextAuthOptions = {
 				password: { label: 'Password', type: 'password' }
 			},
 			async authorize(credentials) {
+				if (!credentials?.email || !credentials?.password)
+					throw new Error('Invalid credentials')
+
 				await connectDB()
 				const user = await User.findOne({
-					email: credentials?.email
+					email: credentials.email
 				}).select('+password')
 
 				if (!user) throw new Error('Wrong Email')
 
-				const passwordMatch = await bcrypt.compare(credentials!.password, user.password)
+				const passwordMatch = await bcrypt.compare(
+					credentials.password,
+					user.password
+				)
 
 				if (!passwordMatch) throw new Error('Wrong Password')
 				return user

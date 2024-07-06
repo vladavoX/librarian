@@ -4,9 +4,31 @@
 		"enabled": true
 	},
 	"linter": {
+		"ignore": [
+			".next",
+			"node_modules",
+			".next-env.d.ts",
+			"src/components/ui/**"
+		],
 		"enabled": true,
 		"rules": {
 			"recommended": true
+		}
+	},
+	"formatter": {
+		"enabled": true,
+		"ignore": [
+			".next",
+			"node_modules",
+			".next-env.d.ts",
+			"src/components/ui/**"
+		]
+	},
+	"javascript": {
+		"formatter": {
+			"semicolons": "asNeeded",
+			"trailingCommas": "none",
+			"quoteStyle": "single"
 		}
 	}
 }
