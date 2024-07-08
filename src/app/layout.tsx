@@ -30,9 +30,11 @@ export default function RootLayout({
 						disableTransitionOnChange
 					>
 						<TooltipProvider>
-							<SideNav />
-							{children}
-							<Toaster />
+							<main className='flex min-h-screen flex-col w-full bg-muted/40'>
+								<SideNav />
+								{children}
+								<Toaster />
+							</main>
 						</TooltipProvider>
 					</ThemeProvider>
 				</body>

@@ -1,6 +1,6 @@
 'use client'
 
-import { updateUserTheme, getUser } from '@/actions/users'
+import { getUser, updateUserTheme } from '@/actions/users'
 import { Button } from '@/components/ui/button'
 import { cn } from '@/lib/utils'
 import { Tooltip, TooltipContent, TooltipTrigger } from '@radix-ui/react-tooltip'
@@ -62,10 +62,10 @@ const SideNav = () => {
 				<Tooltip>
 					<TooltipTrigger asChild>
 						<Link
-							href='/notes'
+							href='/my-books'
 							className={cn(
 								'flex h-9 w-9 items-center justify-center rounded-lg transition-colors hover:text-foreground md:h-8 md:w-8',
-								pathname.includes('/notes') ? 'text-foreground bg-accent' : 'text-muted-foreground'
+								pathname.includes('/my-books') ? 'text-foreground bg-accent' : 'text-muted-foreground'
 							)}
 						>
 							<BookText className='h-5 w-5' />
