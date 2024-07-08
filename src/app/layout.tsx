@@ -1,11 +1,10 @@
-import { Toaster } from '@/components/ui/toaster'
-import { TooltipProvider } from '@/components/ui/tooltip'
 import type { Metadata } from 'next'
 import { Inter } from 'next/font/google'
-import { SideNav } from './components/navigation/SideNav'
 import { ThemeProvider } from './components/theme/ThemeProvider'
-import './globals.css'
 import { Provider } from './provider'
+import { Toaster } from '@/components/ui/toaster'
+import { TooltipProvider } from '@/components/ui/tooltip'
+import './globals.css'
 
 const inter = Inter({ subsets: ['latin'] })
 
@@ -16,22 +15,19 @@ export const metadata: Metadata = {
 
 export default function RootLayout({
 	children
-}: Readonly<{
-	children: React.ReactNode
-}>) {
+}: Readonly<{ children: React.ReactNode }>) {
 	return (
-		<html lang='en'>
+		<html lang="en">
 			<Provider>
 				<body className={inter.className}>
 					<ThemeProvider
-						attribute='class'
-						defaultTheme='system'
+						attribute="class"
+						defaultTheme="system"
 						enableSystem
 						disableTransitionOnChange
 					>
 						<TooltipProvider>
-							<main className='flex min-h-screen flex-col w-full bg-muted/40'>
-								<SideNav />
+							<main className="flex min-h-screen flex-col w-full bg-muted/40">
 								{children}
 								<Toaster />
 							</main>

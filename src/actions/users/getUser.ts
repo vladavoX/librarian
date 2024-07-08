@@ -2,7 +2,9 @@
 import { connectDB } from '@/lib/mongodb'
 import User, { type UserDocument } from '@/models/User'
 
-export async function getUser(email: string | null | undefined): Promise<UserDocument | undefined> {
+export async function getUser(
+	email: string | null | undefined
+): Promise<UserDocument | undefined> {
 	if (!email) return
 
 	try {

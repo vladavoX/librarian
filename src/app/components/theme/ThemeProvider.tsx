@@ -10,7 +10,9 @@ const ThemeProvider = ({ children, ...props }: ThemeProviderProps) => {
 		setIsClient(true)
 	}, [])
 
-	return isClient && <NextThemesProvider {...props}>{children}</NextThemesProvider>
+	return (
+		isClient && <NextThemesProvider {...props}>{children}</NextThemesProvider>
+	)
 }
 
 export { ThemeProvider }
