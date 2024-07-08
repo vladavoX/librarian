@@ -1,7 +1,7 @@
 'use client'
 import { type FormEvent, useRef, useState } from 'react'
 import { signIn, useSession } from 'next-auth/react'
-import { useRouter } from 'next/navigation'
+import { redirect, useRouter } from 'next/navigation'
 import Link from 'next/link'
 import { useToast } from '@/components/ui/use-toast'
 import { Label } from '@/components/ui/label'
@@ -20,9 +20,6 @@ const loginSchema = z.object({
 export default function Login() {
 	const session = useSession()
 	const router = useRouter()
-
-	if (session.status === 'authenticated') router.push('/')
-
 	const ref = useRef<HTMLFormElement>(null)
 	const { toast } = useToast()
 
@@ -66,6 +63,8 @@ export default function Login() {
 			return router.push('/')
 		}
 	}
+
+	if (session.status === 'authenticated') router.push('/')
 
 	return (
 		<>

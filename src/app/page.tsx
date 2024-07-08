@@ -1,10 +1,7 @@
 'use client'
-import { useSession } from 'next-auth/react'
-import { useRouter } from 'next/navigation'
+import { Button } from '@/components/ui/button'
+import { signOut } from 'next-auth/react'
 
 export default function News() {
-	const { status } = useSession()
-	const router = useRouter()
-
-	return <main className='flex min-h-screen flex-col w-full bg-muted/40'>Djoka</main>
+	return <main className='flex min-h-screen flex-col w-full bg-muted/40'></main>
 }

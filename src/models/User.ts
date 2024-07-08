@@ -22,13 +22,11 @@ export interface UserSettings {
 const UserSchema = new Schema<UserDocument>(
 	{
 		email: {
+			index: true,
 			type: String,
 			unique: true,
 			required: [true, 'Email is required'],
-			match: [
-				/^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/,
-				'Email is invalid'
-			]
+			match: [/^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/, 'Email is invalid']
 		},
 		password: {
 			type: String,
@@ -44,7 +42,10 @@ const UserSchema = new Schema<UserDocument>(
 			profileSetup: { type: Boolean, default: false }
 		}
 	},
-	{ timestamps: true }
+	{
+		timestamps: true,
+		autoIndex: true
+	}
 )
 
 const User = mongoose.models?.User || model<UserDocument>('User', UserSchema)

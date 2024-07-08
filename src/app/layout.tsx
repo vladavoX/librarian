@@ -1,11 +1,11 @@
+import { Toaster } from '@/components/ui/toaster'
+import { TooltipProvider } from '@/components/ui/tooltip'
 import type { Metadata } from 'next'
 import { Inter } from 'next/font/google'
+import { SideNav } from './components/navigation/SideNav'
+import { ThemeProvider } from './components/theme/ThemeProvider'
 import './globals.css'
 import { Provider } from './provider'
-import { Toaster } from '@/components/ui/toaster'
-import { ThemeProvider } from 'next-themes'
-import { TooltipProvider } from '@/components/ui/tooltip'
-import { SideNav } from './components/navigation/SideNav'
 
 const inter = Inter({ subsets: ['latin'] })
 
