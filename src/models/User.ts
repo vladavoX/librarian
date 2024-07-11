@@ -6,8 +6,7 @@ export interface UserDocument {
 	password: string
 	createdAt: Date
 	updatedAt: Date
-	username?: string
-	userTag?: string
+	username: string
 	avatar?: string
 	firstName?: string
 	lastName?: string
@@ -36,7 +35,11 @@ const UserSchema = new Schema<UserDocument>(
 			required: true,
 			minlength: [8, 'Password must be at least 8 characters long']
 		},
-		username: { type: String, unique: true },
+		username: {
+			type: String,
+			unique: true,
+			required: [true, 'Username is required']
+		},
 		avatar: { type: String },
 		firstName: { type: String },
 		lastName: { type: String },

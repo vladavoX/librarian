@@ -20,22 +20,22 @@ const NewPostForm = () => {
 
 	return (
 		<form
-			className='flex flex-col gap-4 border-b border-accent pb-4'
+			className="flex flex-col gap-4 border-b border-accent pb-4"
 			action={handleSubmit}
 		>
-			<div className='flex flex-col gap-2'>
+			<div className="flex flex-col gap-2">
 				<Label>New post</Label>
 				<Textarea
-					name='text'
-					className='resize-none'
-					placeholder='Write something...'
+					name="text"
+					className="resize-none"
+					placeholder="Write something..."
 					maxLength={300}
 					rows={5}
-					autoComplete='off'
+					autoComplete="off"
 					required
-					onChange={e => setCharacters(e.target.value.length)}
+					onChange={(e) => setCharacters(e.target.value.length)}
 				/>
-				<div className='flex justify-between text-muted-foreground text-sm'>
+				<div className="flex justify-between text-muted-foreground text-sm">
 					<p>
 						You can <span>@mention</span> other users and organizations.
 					</p>
@@ -43,7 +43,7 @@ const NewPostForm = () => {
 				</div>
 			</div>
 			<Button
-				className='max-w-fit ml-auto'
+				className="max-w-fit ml-auto"
 				disabled={session.status !== 'authenticated' || characters > 300}
 			>
 				Post

@@ -6,9 +6,9 @@ import bcrypt from 'bcryptjs'
 export const register = async (
 	email: string,
 	password: string,
+	username: string,
 	firstName?: string,
-	lastName?: string,
-	username?: string
+	lastName?: string
 ) => {
 	try {
 		await connectDB()
@@ -18,14 +18,19 @@ export const register = async (
 			return { error: 'Email already exists!' }
 		}
 
+		const usernameFound = await User.findOne({ username })
+		if (usernameFound) {
+			return { error: 'Username already exists!' }
+		}
+
 		const hashedPassword = await bcrypt.hash(password, 10)
 
 		await User.create({
 			email: email,
 			password: hashedPassword,
+			username: username,
 			firstName: firstName,
-			lastName: lastName,
-			username: username
+			lastName: lastName
 		})
 	} catch (error) {
 		console.log(error)

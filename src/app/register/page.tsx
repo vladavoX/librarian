@@ -16,8 +16,8 @@ import Link from 'next/link'
 import { useRouter } from 'next/navigation'
 import { useRef } from 'react'
 import { z } from 'zod'
-import { LoadingSpinner } from '../components/loading/LoadingSpinner'
 import { PasswordInput } from '../components/input/PasswordInput'
+import { LoadingSpinner } from '../components/loading/LoadingSpinner'
 
 const registerSchema = z.object({
 	email: z.string().email(),
@@ -68,7 +68,7 @@ export default function Register() {
 			return
 		}
 
-		const r = await register(email, password, firstName, lastName, username)
+		const r = await register(email, password, username, firstName, lastName)
 		if (r?.error) {
 			toast({
 				description: r.error,
@@ -128,6 +128,7 @@ export default function Register() {
 											id="username"
 											type="text"
 											placeholder="example"
+											required
 										/>
 									</div>
 									<div className="grid gap-2">
