@@ -11,6 +11,8 @@ export interface UserDocument {
 	firstName?: string
 	lastName?: string
 	settings: UserSettings
+	likes?: string[]
+	comments?: { [id: string]: string }[]
 }
 
 export interface UserSettings {
@@ -44,9 +46,11 @@ const UserSchema = new Schema<UserDocument>(
 		firstName: { type: String },
 		lastName: { type: String },
 		settings: {
-			theme: { type: String, default: 'light' },
+			theme: { type: String, default: 'system' },
 			profileSetup: { type: Boolean, default: false }
-		}
+		},
+		likes: { type: [String] },
+		comments: { type: [Object] }
 	},
 	{
 		timestamps: true,

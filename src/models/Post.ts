@@ -5,7 +5,6 @@ export interface PostDocument {
 	image?: string
 	text: string
 	likes: number
-	dislikes: number
 	createdAt: Date
 	updatedAt: Date
 	author: string
@@ -19,7 +18,6 @@ const PostSchema = new Schema<PostDocument>(
 		image: { type: String },
 		text: { type: String, required: true },
 		likes: { type: Number, default: 0 },
-		dislikes: { type: Number, default: 0 },
 		author: { type: String, required: true },
 		comments: { type: [String], default: [] },
 		tags: { type: [String], default: [] },

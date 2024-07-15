@@ -1,19 +1,13 @@
 'use server'
 import { connectDB } from '@/lib/mongodb'
-import Post, { type PostDocument } from '@/models/Post'
+import Post from '@/models/Post'
 import { revalidatePath } from 'next/cache'
 
-export const addLikeDislike = async (
-	id: string,
-	type: 'likes' | 'dislikes'
-) => {
+export const handlePostLikes = async (id: string, postLiked?: boolean) => {
 	try {
 		await connectDB()
-		await Post.findByIdAndUpdate(id, {
-			$inc: {
-				[type]: 1
-			}
-		})
+		if (postLiked) await Post.updateOne({ _id: id }, { $inc: { likes: -1 } })
+		if (!postLiked) await Post.updateOne({ _id: id }, { $inc: { likes: 1 } })
 
 		revalidatePath('/(withLayout)/')
 	} catch (error) {
