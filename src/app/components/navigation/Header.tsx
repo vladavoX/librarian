@@ -6,7 +6,6 @@ import {
 	BreadcrumbItem,
 	BreadcrumbLink,
 	BreadcrumbList,
-	BreadcrumbPage,
 	BreadcrumbSeparator
 } from '@/components/ui/breadcrumb'
 import { Button } from '@/components/ui/button'
@@ -29,6 +28,7 @@ import {
 } from '@/components/ui/sheet'
 import { toast } from '@/components/ui/use-toast'
 import { cn } from '@/lib/utils'
+import { prettifyText } from '@/utils/utils'
 import {
 	BookText,
 	Home,
@@ -181,12 +181,14 @@ const Header = () => {
 						<BreadcrumbLink href="/">Librarian</BreadcrumbLink>
 					</BreadcrumbItem>
 					{pathNames.map((path) => (
-						<>
-							<BreadcrumbSeparator key={path} />
-							<BreadcrumbItem key={path}>
-								<BreadcrumbLink href={`/${path}`}>{path}</BreadcrumbLink>
-							</BreadcrumbItem>
-						</>
+						<BreadcrumbSeparator key={path + pathNames[pathNames.length - 1]} />
+					))}
+					{pathNames.map((path) => (
+						<BreadcrumbItem key={path}>
+							<BreadcrumbLink href={`/${path}`}>
+								{prettifyText(path)}
+							</BreadcrumbLink>
+						</BreadcrumbItem>
 					))}
 				</BreadcrumbList>
 			</Breadcrumb>

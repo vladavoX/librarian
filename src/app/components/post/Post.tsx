@@ -2,21 +2,11 @@
 
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar'
 import type { PostDocument } from '@/models/Post'
-import type { UserDocument } from '@/models/User'
-import { since } from '@/utils/formatDate'
+import { since } from '@/utils/utils'
 import { getServerSession } from 'next-auth'
 import Image from 'next/image'
 import { PostActions } from './PostActions'
-
-async function getUser(email: string): Promise<UserDocument> {
-	const res = await fetch(`http://localhost:3000/api/users?email=${email}`)
-
-	if (!res.ok) {
-		throw new Error('Failed to fetch data')
-	}
-
-	return res.json()
-}
+import { getUser } from '@/app/fetch'
 
 const Post = async ({ post }: { post: PostDocument }) => {
 	const session = await getServerSession()

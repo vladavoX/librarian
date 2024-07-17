@@ -1,6 +1,7 @@
 'use client'
 
-import { getUser, updateUserTheme } from '@/actions/users'
+import { updateUserTheme } from '@/actions/users'
+import { getUserSettings } from '@/app/fetch/user'
 import { Button } from '@/components/ui/button'
 import { cn } from '@/lib/utils'
 import {
@@ -24,7 +25,7 @@ import Link from 'next/link'
 import { usePathname } from 'next/navigation'
 import { useEffect, useState } from 'react'
 
-const SideNav = () => {
+const SideNav = ({ userId }: { userId?: string }) => {
 	const session = useSession()
 	const pathname = usePathname()
 	const { theme, setTheme } = useTheme()
@@ -37,15 +38,15 @@ const SideNav = () => {
 
 	useEffect(() => {
 		const getUserData = async () => {
-			const user = await getUser(session.data?.user?.email)
+			const userSettings = await getUserSettings(userId)
 
-			if (user) {
-				setTheme(user.settings.theme)
+			if (userSettings) {
+				setTheme(userSettings.theme)
 			}
 		}
 
 		getUserData()
-	}, [session.data?.user?.email, setTheme])
+	}, [userId, setTheme])
 
 	return (
 		<aside className="fixed inset-y-0 left-0 z-10 hidden w-14 flex-col border-r bg-background sm:flex">

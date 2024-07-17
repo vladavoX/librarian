@@ -1,14 +1,14 @@
 'use server'
 import { connectDB } from '@/lib/mongodb'
 import User, { type UserDocument } from '@/models/User'
-import { revalidatePath } from 'next/cache'
+import { revalidateTag } from 'next/cache'
 
 export const updateUserTheme = async (email: string, theme: string) => {
 	try {
 		await connectDB()
 		await User.updateOne({ email }, { $set: { 'settings.theme': theme } })
 
-		revalidatePath('/(withLayout)/')
+		revalidateTag('users')
 	} catch (error) {
 		console.log(error)
 	}
@@ -32,7 +32,7 @@ export const updateUserLikes = async (email: string, id: string) => {
 		if (!alreadyLiked)
 			await User.updateOne({ email }, { $addToSet: { likes: id } })
 
-		revalidatePath('/(withLayout)/')
+		revalidateTag('users')
 	} catch (error) {
 		console.log(error)
 	}

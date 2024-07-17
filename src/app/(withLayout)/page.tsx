@@ -1,30 +1,16 @@
 'use server'
-import type { PostDocument } from '@/models/Post'
 import { NewPostForm } from '../components/form/NewPostForm'
 import { Post } from '../components/post/Post'
-
-async function getData(
-	page: number
-): Promise<{ posts: PostDocument[]; postsCount: number }> {
-	const res = await fetch(`http://localhost:3000/api/posts?page=${page}`, {
-		next: { tags: ['posts'] }
-	})
-
-	if (!res.ok) {
-		throw new Error('Failed to fetch data')
-	}
-
-	return res.json()
-}
+import { getPosts } from '@/app/fetch'
 
 export default async function Home({
 	searchParams
 }: { searchParams: { page: string } }) {
 	const page = Number(searchParams.page || '1')
-	const data = await getData(page)
+	const data = await getPosts(page)
 
 	return (
-		<main className="grid flex-1 items-start gap-4 p-4 sm:px-6 sm:py-0 md:gap-8 lg:grid-cols-4 xl:grid-cols-4">
+		<main className="grid flex-1 items-start gap-4 p-4 sm:px-6 sm:py-0 md:gap-8 lg:grid-cols-4">
 			<div className="grid auto-rows-max items-start gap-4 md:gap-8 lg:col-span-1">
 				something else
 			</div>
