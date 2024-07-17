@@ -20,7 +20,7 @@ const PostActions = ({
 	)
 	const [optimisticLikes, addOptimisticLikes] = useOptimistic(post.likes)
 	return (
-		<div className="flex items-center justify-between mt-4 text-muted-foreground rounded-md text-xs">
+		<div className="flex items-center justify-between text-muted-foreground rounded-md text-xs">
 			<div className="flex items-center gap-1 -ml-2.5">
 				<Button
 					size="icon"

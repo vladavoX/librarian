@@ -1,19 +1,18 @@
 'use server'
-import { Post } from '../components/post/Post'
-import { NewPostForm } from '../components/form/NewPostForm'
 import type { PostDocument } from '@/models/Post'
-import { revalidatePath } from 'next/cache'
+import { NewPostForm } from '../components/form/NewPostForm'
+import { Post } from '../components/post/Post'
 
 async function getData(
 	page: number
 ): Promise<{ posts: PostDocument[]; postsCount: number }> {
-	const res = await fetch(`http://localhost:3000/api/posts?page=${page}`)
+	const res = await fetch(`http://localhost:3000/api/posts?page=${page}`, {
+		next: { tags: ['posts'] }
+	})
 
 	if (!res.ok) {
 		throw new Error('Failed to fetch data')
 	}
-
-	revalidatePath('/(withLayout)/')
 
 	return res.json()
 }

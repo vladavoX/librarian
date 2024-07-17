@@ -2,7 +2,7 @@ import mongoose, { Schema, model } from 'mongoose'
 
 export interface PostDocument {
 	_id: string
-	image?: string
+	images?: string[]
 	text: string
 	likes: number
 	createdAt: Date
@@ -15,7 +15,7 @@ export interface PostDocument {
 
 const PostSchema = new Schema<PostDocument>(
 	{
-		image: { type: String },
+		images: { type: [String], default: [] },
 		text: { type: String, required: true },
 		likes: { type: Number, default: 0 },
 		author: { type: String, required: true },

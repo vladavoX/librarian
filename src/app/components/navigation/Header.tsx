@@ -27,6 +27,7 @@ import {
 	SheetTitle,
 	SheetTrigger
 } from '@/components/ui/sheet'
+import { toast } from '@/components/ui/use-toast'
 import { cn } from '@/lib/utils'
 import {
 	BookText,
@@ -224,7 +225,13 @@ const Header = () => {
 					<DropdownMenuSeparator />
 					<DropdownMenuItem
 						onClick={() => {
-							session.status === 'authenticated' && signOut({ redirect: false })
+							if (session.status === 'authenticated') {
+								signOut({ redirect: false })
+								toast({
+									title: 'Logged out',
+									description: 'You have been logged out.'
+								})
+							}
 							session.status === 'unauthenticated' && router.push('/login')
 						}}
 					>

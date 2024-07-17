@@ -1,7 +1,7 @@
 'use server'
 import { connectDB } from '@/lib/mongodb'
 import Post from '@/models/Post'
-import { revalidatePath } from 'next/cache'
+import { revalidateTag } from 'next/cache'
 
 export const handlePostLikes = async (id: string, postLiked?: boolean) => {
 	try {
@@ -9,7 +9,7 @@ export const handlePostLikes = async (id: string, postLiked?: boolean) => {
 		if (postLiked) await Post.updateOne({ _id: id }, { $inc: { likes: -1 } })
 		if (!postLiked) await Post.updateOne({ _id: id }, { $inc: { likes: 1 } })
 
-		revalidatePath('/(withLayout)/')
+		revalidateTag('posts')
 	} catch (error) {
 		console.log(error)
 	}

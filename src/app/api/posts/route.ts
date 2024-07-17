@@ -1,6 +1,5 @@
 import { connectDB } from '@/lib/mongodb'
 import Post, { type PostDocument } from '@/models/Post'
-import { revalidatePath } from 'next/cache'
 
 export async function GET(request: Request) {
 	const { searchParams } = new URL(request.url)
@@ -16,8 +15,6 @@ export async function GET(request: Request) {
 			.skip(skip)
 			.limit(perPage)
 		const postsCount = await Post.countDocuments()
-
-		revalidatePath('/(withLayout)')
 
 		return new Response(JSON.stringify({ posts, postsCount }), {
 			status: 200
