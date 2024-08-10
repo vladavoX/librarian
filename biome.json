@@ -28,7 +28,8 @@
 		"formatter": {
 			"semicolons": "asNeeded",
 			"trailingCommas": "none",
-			"quoteStyle": "single"
+			"quoteStyle": "single",
+			"lineWidth": 120
 		}
 	}
 }

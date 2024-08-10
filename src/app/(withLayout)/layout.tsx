@@ -13,7 +13,7 @@ export default async function PagesLayout({
 
 	return (
 		<>
-			<SideNav userId={user._id} />
+			<SideNav userId={user?._id} />
 			<div className="flex flex-col sm:gap-4 sm:py-4 sm:pl-14">
 				<Header />
 				{children}

@@ -180,15 +180,18 @@ const Header = () => {
 					<BreadcrumbItem>
 						<BreadcrumbLink href="/">Librarian</BreadcrumbLink>
 					</BreadcrumbItem>
-					{pathNames.map((path) => (
-						<BreadcrumbSeparator key={path + pathNames[pathNames.length - 1]} />
-					))}
-					{pathNames.map((path) => (
-						<BreadcrumbItem key={path}>
-							<BreadcrumbLink href={`/${path}`}>
-								{prettifyText(path)}
-							</BreadcrumbLink>
-						</BreadcrumbItem>
+					{pathNames.map((path, index) => (
+						<>
+							<BreadcrumbSeparator
+								// biome-ignore lint/suspicious/noArrayIndexKey: <explanation>
+								key={index}
+							/>
+							<BreadcrumbItem key={path}>
+								<BreadcrumbLink href={`/${path}`}>
+									{prettifyText(path)}
+								</BreadcrumbLink>
+							</BreadcrumbItem>
+						</>
 					))}
 				</BreadcrumbList>
 			</Breadcrumb>

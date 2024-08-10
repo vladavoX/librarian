@@ -9,7 +9,7 @@ export interface BookDocument {
 	description: string
 	cover: string
 	ownStatus: BookOwnStatus
-	readingStatus: BooReadingStatus
+	readingStatus: BookReadingStatus
 	interested: boolean
 	notes: string[]
 	quotes: string[]
@@ -18,12 +18,12 @@ export interface BookDocument {
 	userId: string
 }
 
-enum BookOwnStatus {
+export enum BookOwnStatus {
 	OWNED = 'OWNED',
 	NOT_OWNED = 'NOT_OWNED'
 }
 
-enum BooReadingStatus {
+export enum BookReadingStatus {
 	READ = 'READ',
 	READING = 'READING',
 	NOT_READ = 'NOT_READ',
@@ -45,8 +45,8 @@ const BookSchema = new Schema<BookDocument>(
 		},
 		readingStatus: {
 			type: String,
-			enum: Object.values(BooReadingStatus),
-			default: BooReadingStatus.NOT_READ
+			enum: Object.values(BookReadingStatus),
+			default: BookReadingStatus.NOT_READ
 		},
 		interested: { type: Boolean, default: false },
 		notes: { type: [String], default: [] },

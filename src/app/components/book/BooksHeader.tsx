@@ -8,6 +8,7 @@ import {
 	CardContent
 } from '@/components/ui/card'
 import { Progress } from '@/components/ui/progress'
+import Link from 'next/link'
 
 const BooksHeader = () => {
 	return (
@@ -20,7 +21,9 @@ const BooksHeader = () => {
 					</CardDescription>
 				</CardHeader>
 				<CardFooter>
-					<Button>Add new book</Button>
+					<Link href="/my-books/new">
+						<Button>Add new book</Button>
+					</Link>
 				</CardFooter>
 			</Card>
 			<Card x-chunk="dashboard-05-chunk-1">
