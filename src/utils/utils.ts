@@ -40,13 +40,3 @@ export const prettifyText = (text: string): string => {
 
 	return capitalized
 }
-
-/**
- * Capitalizes the first letter of a given string.
- *
- * @param {string} text - The input string to be capitalized.
- * @return {string} The capitalized string.
- */
-export const capitalize = (text: string): string => {
-	return text.toLowerCase().charAt(0).toUpperCase() + text.toLowerCase().slice(1)
-}

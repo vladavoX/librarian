@@ -2,7 +2,6 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/com
 import { Table, TableHeader, TableRow, TableHead, TableBody, TableCell } from '@/components/ui/table'
 import { Badge } from '@/components/ui/badge'
 import { BookOwnStatus, BookReadingStatus, type BookDocument } from '@/models/Book'
-import { capitalize } from '@/utils/utils'
 
 const BooksTable = ({ books }: { books: BookDocument[] }) => {
 	const ownStatusStyle = (status: BookOwnStatus | undefined) => {
