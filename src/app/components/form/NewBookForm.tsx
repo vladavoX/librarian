@@ -1,3 +1,4 @@
+'use client'
 import { Button } from '@/components/ui/button'
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card'
 import { Input } from '@/components/ui/input'
@@ -15,17 +16,20 @@ import { Textarea } from '@/components/ui/textarea'
 import { BookOwnStatus, BookReadingStatus } from '@/models/Book'
 import { NotesQuotes } from './bookForm/NotesQuotes'
 import { newBook } from '@/actions/books/newBooks'
-import { getServerSession } from 'next-auth'
 import { getUser } from '@/app/fetch'
+import { useToast } from '@/components/ui/use-toast'
+import { useSession } from 'next-auth/react'
+import { useRouter } from 'next/navigation'
 
-const NewBookForm = async () => {
-	const session = await getServerSession()
+const NewBookForm = () => {
+	const session = useSession()
+	const { toast } = useToast()
+	const router = useRouter()
 
 	const handleSubmit = async (formData: FormData) => {
-		'use server'
-		const user = await getUser(session?.user?.email || '')
+		const user = await getUser(session?.data?.user?.email || '')
 
-		if (session?.user?.email) {
+		if (session?.data?.user?.email) {
 			const title = formData.get('title') as string
 			const author = formData.get('author') as string
 			const genre = formData.get('genre') as string
@@ -34,6 +38,13 @@ const NewBookForm = async () => {
 			const readingStatus = formData.get('readingStatus') as BookReadingStatus
 			const description = formData.get('description') as string
 			await newBook(user._id, title, author, genre, publisher, ownStatus, readingStatus, description)
+
+			toast({
+				title: 'Success',
+				description: 'Book added successfully'
+			})
+
+			router.push('/my-books')
 		}
 	}
 
@@ -92,8 +103,8 @@ const NewBookForm = async () => {
 								<SelectContent>
 									<SelectGroup>
 										<SelectLabel>Select an option</SelectLabel>
-										<SelectItem value={BookReadingStatus.READ}>Read</SelectItem>
-										<SelectItem value={BookReadingStatus.NOT_READ}>Not read</SelectItem>
+										<SelectItem value={BookReadingStatus.READ}>Yes</SelectItem>
+										<SelectItem value={BookReadingStatus.NOT_READ}>No</SelectItem>
 										<SelectItem value={BookReadingStatus.READING}>Reading</SelectItem>
 										<SelectItem value={BookReadingStatus.PAUSED}>Paused</SelectItem>
 									</SelectGroup>

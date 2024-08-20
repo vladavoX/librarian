@@ -16,6 +16,32 @@ const BooksTable = ({ books }: { books: BookDocument[] }) => {
 		}
 	}
 
+	const formatOwnStatus = (status: BookOwnStatus | undefined) => {
+		switch (status) {
+			case BookOwnStatus.OWNED:
+				return 'Yes'
+			case BookOwnStatus.NOT_OWNED:
+				return 'No'
+			default:
+				return 'Not defined'
+		}
+	}
+
+	const formatReadingStatus = (status: BookReadingStatus | undefined) => {
+		switch (status) {
+			case BookReadingStatus.READ:
+				return 'Yes'
+			case BookReadingStatus.READING:
+				return 'Reading'
+			case BookReadingStatus.PAUSED:
+				return 'Paused'
+			case BookReadingStatus.NOT_READ:
+				return 'No'
+			default:
+				return 'Not defined'
+		}
+	}
+
 	const readingStatusStyle = (status: BookReadingStatus | undefined) => {
 		switch (status) {
 			case BookReadingStatus.READ:
@@ -40,27 +66,29 @@ const BooksTable = ({ books }: { books: BookDocument[] }) => {
 					<TableHeader>
 						<TableRow>
 							<TableHead>Book</TableHead>
-							<TableHead className="hidden sm:table-cell">Genre</TableHead>
-							<TableHead className="hidden sm:table-cell">Owned status</TableHead>
-							<TableHead className="hidden md:table-cell">Reading status</TableHead>
+							<TableHead className="md:hidden whitespace-nowrap">Author</TableHead>
+							<TableHead className="hidden md:table-cell whitespace-nowrap">Genre</TableHead>
+							<TableHead className="hidden md:table-cell text-right whitespace-nowrap">Owned</TableHead>
+							<TableHead className="hidden sm:table-cell text-right whitespace-nowrap">Read</TableHead>
 						</TableRow>
 					</TableHeader>
 					<TableBody>
 						{books.map((book) => (
 							<TableRow key={book._id}>
 								<TableCell>
-									<div className="font-medium">{book.title}</div>
+									<div className="font-medium whitespace-nowrap">{book.title}</div>
 									<div className="hidden text-sm text-muted-foreground md:inline">{book.author}</div>
 								</TableCell>
-								<TableCell className="hidden sm:table-cell">{book.genre}</TableCell>
-								<TableCell className="hidden sm:table-cell">
+								<TableCell className="md:hidden whitespace-nowrap">{book.author}</TableCell>
+								<TableCell className="hidden md:table-cell">{book.genre}</TableCell>
+								<TableCell className="hidden md:table-cell text-right whitespace-nowrap">
 									<Badge className="text-xs" variant={ownStatusStyle(book.ownStatus)}>
-										{book.ownStatus ? capitalize(book.ownStatus) : 'Not defined'}
+										{formatOwnStatus(book.ownStatus)}
 									</Badge>
 								</TableCell>
-								<TableCell className="hidden sm:table-cell">
+								<TableCell className="hidden sm:table-cell text-right whitespace-nowrap">
 									<Badge className="text-xs" variant={readingStatusStyle(book.readingStatus)}>
-										{book.readingStatus ? capitalize(book.readingStatus) : 'Not defined'}
+										{formatReadingStatus(book.readingStatus)}
 									</Badge>
 								</TableCell>
 							</TableRow>

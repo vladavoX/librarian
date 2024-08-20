@@ -23,17 +23,12 @@ const BooksFilter = () => {
 					<DropdownMenuContent align="end">
 						<DropdownMenuLabel>Filter by</DropdownMenuLabel>
 						<DropdownMenuSeparator />
-						<DropdownMenuCheckboxItem checked>
-							Fulfilled
-						</DropdownMenuCheckboxItem>
+						<DropdownMenuCheckboxItem checked>Fulfilled</DropdownMenuCheckboxItem>
 						<DropdownMenuCheckboxItem>Declined</DropdownMenuCheckboxItem>
 						<DropdownMenuCheckboxItem>Refunded</DropdownMenuCheckboxItem>
+						<DropdownMenuSeparator />
 					</DropdownMenuContent>
 				</DropdownMenu>
-				<Button size="sm" variant="outline" className="h-7 gap-1 text-sm">
-					<File className="h-3.5 w-3.5" />
-					<span className="sr-only sm:not-sr-only">Export</span>
-				</Button>
 			</div>
 		</div>
 	)

@@ -141,13 +141,19 @@ const Header = () => {
 			<Breadcrumb className="hidden md:flex">
 				<BreadcrumbList>
 					<BreadcrumbItem>
-						<BreadcrumbLink href="/">Librarian</BreadcrumbLink>
+						<BreadcrumbLink className="cursor-pointer" onClick={() => router.push('/')}>
+							Librarian
+						</BreadcrumbLink>
 					</BreadcrumbItem>
 					{pathNames.map((path) => (
-						<BreadcrumbItem key={path}>
-							<BreadcrumbSeparator />
-							<BreadcrumbLink href={`/${path}`}>{prettifyText(path)}</BreadcrumbLink>
-						</BreadcrumbItem>
+						<>
+							<BreadcrumbSeparator key={path} />
+							<BreadcrumbItem key={path}>
+								<BreadcrumbLink className="cursor-pointer" onClick={() => router.push(`/${path}`)}>
+									{prettifyText(path)}
+								</BreadcrumbLink>
+							</BreadcrumbItem>
+						</>
 					))}
 				</BreadcrumbList>
 			</Breadcrumb>
