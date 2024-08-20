@@ -5,12 +5,12 @@ export interface BookDocument {
 	title: string
 	author: string
 	genre: string
-	publisher: string
-	description: string
-	cover: string
-	ownStatus: BookOwnStatus
-	readingStatus: BookReadingStatus
-	interested: boolean
+	publisher?: string
+	description?: string
+	cover?: string
+	ownStatus?: BookOwnStatus
+	readingStatus?: BookReadingStatus
+	interested?: boolean
 	notes: string[]
 	quotes: string[]
 	createdAt: Date

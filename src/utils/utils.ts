@@ -12,10 +12,7 @@ export const since = (date: Date): string => {
 	const diffInMinutes = Math.floor(diffInSeconds / 60)
 	const diffInHours = Math.floor(diffInMinutes / 60)
 	const diffInDays = Math.floor(diffInHours / 24)
-	const diffInMonths =
-		now.getMonth() -
-		date.getMonth() +
-		12 * (now.getFullYear() - date.getFullYear())
+	const diffInMonths = now.getMonth() - date.getMonth() + 12 * (now.getFullYear() - date.getFullYear())
 
 	if (diffInMonths > 1) return date.toLocaleString()
 	if (diffInDays === 1) return `${diffInDays} day ago`
@@ -39,8 +36,17 @@ export const prettifyText = (text: string): string => {
 	// only alphanumeric
 	const alphanumeric = spaces.replace(/[^a-zA-Z0-9 ]/g, '')
 	// capitalize the first word
-	const capitalized =
-		alphanumeric.charAt(0).toUpperCase() + alphanumeric.slice(1)
+	const capitalized = alphanumeric.charAt(0).toUpperCase() + alphanumeric.slice(1)
 
 	return capitalized
+}
+
+/**
+ * Capitalizes the first letter of a given string.
+ *
+ * @param {string} text - The input string to be capitalized.
+ * @return {string} The capitalized string.
+ */
+export const capitalize = (text: string): string => {
+	return text.toLowerCase().charAt(0).toUpperCase() + text.toLowerCase().slice(1)
 }
