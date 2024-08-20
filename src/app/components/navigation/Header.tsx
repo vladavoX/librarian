@@ -18,30 +18,11 @@ import {
 	DropdownMenuTrigger
 } from '@/components/ui/dropdown-menu'
 import { Input } from '@/components/ui/input'
-import {
-	Sheet,
-	SheetContent,
-	SheetDescription,
-	SheetHeader,
-	SheetTitle,
-	SheetTrigger
-} from '@/components/ui/sheet'
+import { Sheet, SheetContent, SheetDescription, SheetHeader, SheetTitle, SheetTrigger } from '@/components/ui/sheet'
 import { toast } from '@/components/ui/use-toast'
 import { cn } from '@/lib/utils'
 import { prettifyText } from '@/utils/utils'
-import {
-	BookText,
-	Home,
-	Library,
-	Moon,
-	PanelLeft,
-	Search,
-	Settings,
-	Sun,
-	SunMoon,
-	User,
-	Users2
-} from 'lucide-react'
+import { BookText, Home, Library, Moon, PanelLeft, Search, Settings, Sun, SunMoon, User, Users2 } from 'lucide-react'
 import { signOut, useSession } from 'next-auth/react'
 import { useTheme } from 'next-themes'
 import Image from 'next/image'
@@ -72,11 +53,7 @@ const Header = () => {
 						<span className="sr-only">Toggle Menu</span>
 					</Button>
 				</SheetTrigger>
-				<SheetContent
-					side="left"
-					className="sm:max-w-xs"
-					aria-describedby="sheet-description"
-				>
+				<SheetContent side="left" className="sm:max-w-xs" aria-describedby="sheet-description">
 					<SheetHeader>
 						<SheetTitle title="Librarian" />
 						<SheetDescription aria-description="Librarian" />
@@ -103,9 +80,7 @@ const Header = () => {
 							href="/my-books"
 							className={cn(
 								'flex items-center gap-4 px-2.5 hover:text-foreground',
-								paths.includes('/notes')
-									? 'text-foreground'
-									: 'text-muted-foreground'
+								paths.includes('/notes') ? 'text-foreground' : 'text-muted-foreground'
 							)}
 						>
 							<BookText className="h-5 w-5" />
@@ -115,9 +90,7 @@ const Header = () => {
 							href="/people"
 							className={cn(
 								'flex items-center gap-4 px-2.5 hover:text-foreground',
-								paths === '/people'
-									? 'text-foreground'
-									: 'text-muted-foreground'
+								paths === '/people' ? 'text-foreground' : 'text-muted-foreground'
 							)}
 						>
 							<Users2 className="h-5 w-5" />
@@ -129,22 +102,12 @@ const Header = () => {
 								className="flex items-center gap-4 px-2.5 text-muted-foreground hover:text-foreground h-fit"
 								onClick={async (e) => {
 									e.preventDefault()
-									setTheme(
-										theme === 'system'
-											? 'light'
-											: theme === 'light'
-												? 'dark'
-												: 'system'
-									)
+									setTheme(theme === 'system' ? 'light' : theme === 'light' ? 'dark' : 'system')
 
 									if (session.data?.user?.email)
 										await updateUserTheme(
 											session.data?.user?.email,
-											theme === 'system'
-												? 'light'
-												: theme === 'light'
-													? 'dark'
-													: 'system'
+											theme === 'system' ? 'light' : theme === 'light' ? 'dark' : 'system'
 										)
 								}}
 							>
@@ -180,18 +143,11 @@ const Header = () => {
 					<BreadcrumbItem>
 						<BreadcrumbLink href="/">Librarian</BreadcrumbLink>
 					</BreadcrumbItem>
-					{pathNames.map((path, index) => (
-						<>
-							<BreadcrumbSeparator
-								// biome-ignore lint/suspicious/noArrayIndexKey: <explanation>
-								key={index}
-							/>
-							<BreadcrumbItem key={path}>
-								<BreadcrumbLink href={`/${path}`}>
-									{prettifyText(path)}
-								</BreadcrumbLink>
-							</BreadcrumbItem>
-						</>
+					{pathNames.map((path) => (
+						<BreadcrumbItem key={path}>
+							<BreadcrumbSeparator />
+							<BreadcrumbLink href={`/${path}`}>{prettifyText(path)}</BreadcrumbLink>
+						</BreadcrumbItem>
 					))}
 				</BreadcrumbList>
 			</Breadcrumb>
@@ -205,11 +161,7 @@ const Header = () => {
 			</div>
 			<DropdownMenu>
 				<DropdownMenuTrigger asChild>
-					<Button
-						variant="outline"
-						size="icon"
-						className="overflow-hidden rounded-full"
-					>
+					<Button variant="outline" size="icon" className="overflow-hidden rounded-full">
 						{session.data?.user?.image && (
 							<Image
 								src={session.data?.user?.image}

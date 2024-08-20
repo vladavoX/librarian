@@ -1,11 +1,5 @@
 import { Button } from '@/components/ui/button'
-import {
-	Card,
-	CardContent,
-	CardDescription,
-	CardHeader,
-	CardTitle
-} from '@/components/ui/card'
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card'
 import { Input } from '@/components/ui/input'
 import { Label } from '@/components/ui/label'
 import {
@@ -20,10 +14,31 @@ import {
 import { Textarea } from '@/components/ui/textarea'
 import { BookOwnStatus, BookReadingStatus } from '@/models/Book'
 import { NotesQuotes } from './bookForm/NotesQuotes'
+import { newBook } from '@/actions/books/newBooks'
+import { getServerSession } from 'next-auth'
+import { getUser } from '@/app/fetch'
 
-const NewBookForm = () => {
+const NewBookForm = async () => {
+	const session = await getServerSession()
+
+	const handleSubmit = async (formData: FormData) => {
+		'use server'
+		const user = await getUser(session?.user?.email || '')
+
+		if (session?.user?.email) {
+			const title = formData.get('title') as string
+			const author = formData.get('author') as string
+			const genre = formData.get('genre') as string
+			const publisher = formData.get('publisher') as string
+			const ownStatus = formData.get('ownStatus') as BookOwnStatus
+			const readingStatus = formData.get('readingStatus') as BookReadingStatus
+			const description = formData.get('description') as string
+			await newBook(user._id, title, author, genre, publisher, ownStatus, readingStatus, description)
+		}
+	}
+
 	return (
-		<form className="flex flex-col gap-4">
+		<form className="flex flex-col gap-4" action={handleSubmit}>
 			<Card>
 				<CardHeader>
 					<CardTitle>Add new book</CardTitle>
@@ -33,23 +48,11 @@ const NewBookForm = () => {
 					<div className="grid grid-cols-2 lg:grid-cols-3 gap-4">
 						<div className="grid gap-2">
 							<Label htmlFor="title">Title *</Label>
-							<Input
-								id="title"
-								name="title"
-								type="text"
-								placeholder="Philosopher's Stone"
-								required
-							/>
+							<Input id="title" name="title" type="text" placeholder="Philosopher's Stone" required />
 						</div>
 						<div className="grid gap-2">
 							<Label htmlFor="author">Author *</Label>
-							<Input
-								id="author"
-								name="author"
-								type="text"
-								placeholder="J. K. Rowling"
-								required
-							/>
+							<Input id="author" name="author" type="text" placeholder="J. K. Rowling" required />
 						</div>
 						<div className="grid gap-2">
 							<Label htmlFor="genre">Genre *</Label>
@@ -67,7 +70,7 @@ const NewBookForm = () => {
 						</div>
 						<div className="grid gap-2">
 							<Label htmlFor="ownStatus">Do you own the book?</Label>
-							<Select>
+							<Select name="ownStatus">
 								<SelectTrigger>
 									<SelectValue placeholder="Select an option" />
 								</SelectTrigger>
@@ -82,7 +85,7 @@ const NewBookForm = () => {
 						</div>
 						<div className="grid gap-2">
 							<Label htmlFor="readingStatus">Did you read the book?</Label>
-							<Select>
+							<Select name="readingStatus">
 								<SelectTrigger>
 									<SelectValue placeholder="Select an option" />
 								</SelectTrigger>
@@ -90,26 +93,16 @@ const NewBookForm = () => {
 									<SelectGroup>
 										<SelectLabel>Select an option</SelectLabel>
 										<SelectItem value={BookReadingStatus.READ}>Read</SelectItem>
-										<SelectItem value={BookReadingStatus.NOT_READ}>
-											Not read
-										</SelectItem>
-										<SelectItem value={BookReadingStatus.READING}>
-											Reading
-										</SelectItem>
-										<SelectItem value={BookReadingStatus.PAUSED}>
-											Paused
-										</SelectItem>
+										<SelectItem value={BookReadingStatus.NOT_READ}>Not read</SelectItem>
+										<SelectItem value={BookReadingStatus.READING}>Reading</SelectItem>
+										<SelectItem value={BookReadingStatus.PAUSED}>Paused</SelectItem>
 									</SelectGroup>
 								</SelectContent>
 							</Select>
 						</div>
 						<div className="grid gap-2 col-span-3">
 							<Label htmlFor="description">Description</Label>
-							<Textarea
-								id="description"
-								name="description"
-								placeholder="Leave a description of the book"
-							/>
+							<Textarea id="description" name="description" placeholder="Leave a description of the book" />
 						</div>
 						<NotesQuotes />
 					</div>
